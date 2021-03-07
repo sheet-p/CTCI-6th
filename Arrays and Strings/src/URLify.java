@@ -32,6 +32,7 @@ public class URLify {
         return spaces;
     }
 
+
     //assuming string has sufficient space at the end
     private static void replaceSpaces(char[] str, int len) {
         int index = str.length-1;
