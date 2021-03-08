@@ -14,11 +14,19 @@ public class RemoveDups {
         head.next.next.next.next = new ListNode(3);
         head.next.next.next.next.next = new ListNode(3);
 
+        System.out.println("With O(n) space :");
         ListNode newHead = removeDuplicates(head);
-
         while(newHead != null) {
             System.out.println(newHead.data);
             newHead = newHead.next;
+        }
+
+        //if temporary buffer not allowed
+        System.out.println("With constant space and O(n2) time :");
+        ListNode newnewHead = noTempBuffer(head);
+        while(newnewHead != null) {
+            System.out.println(newnewHead.data);
+            newnewHead = newnewHead.next;
         }
     }
 
@@ -39,6 +47,32 @@ public class RemoveDups {
                 prev = curr;
                 curr = curr.next;
             }
+        }
+
+        return head;
+    }
+
+    private static ListNode noTempBuffer(ListNode head) {
+        ListNode slow = head;
+        ListNode fast = head.next;
+
+        while(slow!= null) {
+            int val = slow.data;
+            ListNode temp = slow.next;
+            ListNode prev = null;
+            //loop through all others to find if val exists
+            while(temp != null) {
+                if(temp.data == val) {
+                    prev.next = temp.next;
+                    temp.next = null;
+                    temp = prev.next;
+                }
+                else {
+                    prev = temp;
+                    temp = temp.next;
+                }
+            }
+            slow = slow.next;
         }
 
         return head;
