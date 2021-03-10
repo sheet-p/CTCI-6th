@@ -3,7 +3,7 @@ import java.util.List;
 
 public class Graph {
     int vertices;
-    List<List<Integer>> adj;
+    List<List<Integer>> adj = new ArrayList<>();
 
     Graph(int v) {
         this.vertices = v;
