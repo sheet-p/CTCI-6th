@@ -2,8 +2,7 @@ import java.util.*;
 
 public class ListOfDepths {
     static Tree root;
-    static LinkedList<LinkedList<Integer>> depths = new LinkedList<>();
-    static Map<Integer, ArrayList<Integer>> map = new HashMap<>();
+    static ArrayList<LinkedList<Tree>> depths = new ArrayList<>();
 
     public static void main(String[] args) {
         //creating tree
@@ -12,43 +11,41 @@ public class ListOfDepths {
         root.right = new Tree(3);
         root.left.left = new Tree(4);
         root.left.right = new Tree(5);
-        root.right.left = new Tree(6);
-        root.right.right = new Tree(7);
 
-        int h = height(root);
-        //allocating memory
-        for(int i=0; i<=h; i++)
-            depths.add(new LinkedList<>());
+        depths = BFS(root);
 
-        for(Map.Entry<Integer, ArrayList<Integer>> m : map.entrySet()) {
-            for(int node : m.getValue())
-                depths.get(m.getKey()).add(node);
-        }
-
-        //displaying at each depth
-        for(int i=1; i<=h; i++) {
-            System.out.println("At depth : " + i);
-            for(int node : depths.get(i)) {
-                    System.out.print(" "+ node);
-            }
-        }
+        printList();
     }
 
-    private static int height(Tree root) {
-        if(root == null)
-            return 0;
-        int left = height(root.left);
-        int right = height(root.right);
+    private static ArrayList<LinkedList<Tree>> BFS(Tree root) {
+        ArrayList<LinkedList<Tree>> result = new ArrayList<>();
 
-        if(left < right) {
-            map.putIfAbsent(right+1, new ArrayList<>());
-            map.get(right+1).add(root.data);
-            return right + 1;
+        LinkedList<Tree> curr = new LinkedList<>();
+
+        if(root != null)
+            curr.add(root);
+
+        while(curr.size() > 0) {
+            result.add(curr);
+            LinkedList<Tree> parents = curr;
+            curr = new LinkedList<>();
+            for(Tree parent : parents) {
+                if(parent.left != null)
+                    curr.add(parent.left);
+                if(parent.right != null)
+                    curr.add(parent.right);
+            }
         }
-        else {
-            map.putIfAbsent(left+1, new ArrayList<>());
-            map.get(left+1).add(root.data);
-            return left + 1;
+
+        return result;
+    }
+
+    private static void printList() {
+        int counter = 1;
+        for(LinkedList<Tree> tree : depths) {
+            System.out.print("Nodes at depth " + counter++ + ":");
+            for(Tree t : tree)
+                System.out.println(" " + t.data);
         }
     }
 }
