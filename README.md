@@ -1,1 +1,1 @@
-# CTCI-6th Edition Java Solutions
+# CTCI-6th Edition Java
