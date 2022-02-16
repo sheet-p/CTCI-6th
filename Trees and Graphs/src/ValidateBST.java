@@ -1,36 +1,23 @@
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Set;
-
 public class ValidateBST {
-    static Tree root;
-    static List<Integer> check = new ArrayList<>();
-
     public static void main(String[] args) {
-        root = new Tree(1);
-        root.left = new Tree(2);
-        root.left.left = new Tree(4);
-        root.left.right = new Tree(5);
-        root.right = new Tree(3);
-        root.right.right = new Tree(6);
-        root.right.right.right = new Tree(7);
+        Tree root = new Tree(5);
+        root.left = new Tree(4);
+        root.right = new Tree(8);
+        root.left.left = new Tree(2);
+        root.left.right = new Tree(3);
+        root.right.left = new Tree(6);
+        root.right.right = new Tree(9);
 
-        inOrder(root);
-
-        //check if 'check' is sorted
-        List<Integer> beforesort = new ArrayList<>(check);
-        Collections.sort(check);
-
-        System.out.println(check.equals(beforesort));
+        System.out.println(isBST(root, null, null));
     }
 
-    private static void inOrder(Tree root) {
-        if(root == null)
-            return ;
-
-        inOrder(root.left);
-        check.add(root.data);
-        inOrder(root.right);
+    private static boolean isBST(Tree root, Integer min, Integer max){
+        if(root == null) {
+            return true;
+        }
+        else if( (min!=null && root.data<=min) && (max!=null && root.data>=max) ) {
+            return false;
+        }
+        return isBST(root.left, min, root.data) && isBST(root.right, root.data, max);
     }
 }
